@@ -17,7 +17,8 @@ public class Generator {
         return i;
     }
     public static String getRandomStringFromList(ArrayList<String> inputList){
-
+        if (inputList.isEmpty())
+            return "";
         return inputList.get(getRand(0,inputList.size()-1));
     }
     public static LocalDate getRandomDate(int minYear){
