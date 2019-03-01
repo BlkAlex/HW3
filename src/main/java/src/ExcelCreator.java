@@ -15,15 +15,8 @@ import java.util.ArrayList;
 public class ExcelCreator {
     public static void createExcelTable(ArrayList<Human> humans,ArrayList<String> namesColumn){
         HSSFWorkbook workbook = new HSSFWorkbook();
-        // создание листа с названием "Просто лист"
         HSSFSheet sheet = workbook.createSheet("Просто лист");
-
-        // заполняем список какими-то данными
-
-        // счетчик для строк
         int rowNum = 0;
-
-        // создаем подписи к столбцам (это будет первая строчка в листе Excel файла)
         Row row = sheet.createRow(rowNum);
         for (int i = 0 ; i < namesColumn.size();i++){
             row.createCell(i).setCellValue(namesColumn.get(i));

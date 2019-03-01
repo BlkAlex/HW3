@@ -65,5 +65,10 @@ public class InputParameters {
         }
         return namesColumn;
     }
+    @Getter
+    final static String maleString = "М";
 
+
+    @Getter
+    final static String femaleString = "Ж";
 }

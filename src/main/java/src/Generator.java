@@ -10,6 +10,8 @@ import java.util.Random;
 
 public class Generator {
     public static int getRand(int min,int max){
+        if (max < min )
+            return -1;
         int diff = max - min;
         Random random = new Random();
         int i = random.nextInt(diff + 1);

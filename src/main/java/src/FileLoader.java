@@ -8,9 +8,9 @@ public class FileLoader {
         ArrayList<String> linesFromFile = new ArrayList<>();
         FileReader fr;
         //try {
-            File myfile = new File(fileName);
+            File myFile = new File(fileName);
         try {
-            fr = new FileReader(myfile);
+            fr = new FileReader(myFile);
         }
         catch (FileNotFoundException ex){
             return linesFromFile;

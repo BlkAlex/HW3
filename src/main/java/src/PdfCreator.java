@@ -43,7 +43,7 @@ class PdfCreator {
                 table.addCell(getPDFPcell(human.getSurname()));
                 table.addCell(getPDFPcell(human.getPatronymic()));
                 table.addCell(getPDFPcell(String.valueOf(human.getAge())));
-                table.addCell((getPDFPcell(human.getSex() == SEX.MALE?"М":"Ж")));
+                table.addCell((getPDFPcell(human.getSex() == SEX.MALE?InputParameters.getMaleString():InputParameters.getFemaleString())));
                 table.addCell(getPDFPcell(human.getBithdayDate().format(DateTimeFormatter.ofPattern("dd-MM-YYYY"))));
                 table.addCell(getPDFPcell(human.getInn()));
                 table.addCell(getPDFPcell(String.valueOf(human.getMailIndex())));
@@ -62,7 +62,6 @@ class PdfCreator {
             document.open();
             document.add(table);
             document.close();
-
             System.out.println("PDF файл создан. Путь:" +outFile.getAbsolutePath());
 
     }
