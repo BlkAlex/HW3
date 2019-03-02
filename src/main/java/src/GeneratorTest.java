@@ -103,12 +103,4 @@ public class GeneratorTest {
         n12 = (n12 % 11) % 10;
         return n12;
     }
-
-    @Test
-    public void getRandomSex() {
-    }
-
-    @Test
-    public void getRandomNumberHouse() {
-    }
 }
