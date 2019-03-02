@@ -4,7 +4,7 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 
-public class InputParameters {
+class InputParameters {
 
     @Getter
     final static String fileMaleNames = "resources/MaleNames";
@@ -43,10 +43,17 @@ public class InputParameters {
     final static int maxNumberFlat = 2000;
 
     @Getter
-    final static  int RegionINN = 77;
-    private static ArrayList<String> namesColumn ;
-    public static ArrayList<String> getListNamesColumn(){
-        if (namesColumn == null){
+    final static int minCountUsers = 1;
+
+    @Getter
+    final static int maxCountUsers = 30;
+
+    @Getter
+    final static int RegionINN = 77;
+    private static ArrayList<String> namesColumn;
+
+    static ArrayList<String> getListNamesColumn() {
+        if (namesColumn == null) {
             namesColumn = new ArrayList<>();
             namesColumn.add("Имя");
             namesColumn.add("Фамилия");
@@ -65,6 +72,7 @@ public class InputParameters {
         }
         return namesColumn;
     }
+
     @Getter
     final static String maleString = "М";
 

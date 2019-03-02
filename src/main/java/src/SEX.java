@@ -1,6 +1,6 @@
 package src;
 
-public enum SEX{
+public enum SEX {
     MALE,
     FEMALE
 }

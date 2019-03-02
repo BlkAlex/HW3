@@ -8,80 +8,84 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Random;
 
-public class Generator {
-    public static int getRand(int min,int max){
-        if (max < min )
+class Generator {
+    static int getRand(int minValue, int maxValue) {
+        if (maxValue < minValue)
             return -1;
-        int diff = max - min;
+        int diff = maxValue - minValue;
         Random random = new Random();
         int i = random.nextInt(diff + 1);
-        i += min;
+        i += minValue;
         return i;
     }
-    public static String getRandomStringFromList(ArrayList<String> inputList){
+
+    static String getRandomStringFromList(ArrayList<String> inputList) {
         if (inputList.isEmpty())
             return "";
-        return inputList.get(getRand(0,inputList.size()-1));
+        return inputList.get(getRand(0, inputList.size() - 1));
     }
-    public static LocalDate getRandomDate(int minYear){
+
+    static LocalDate getRandomDate(int minYear) {
         Calendar calendar = new GregorianCalendar();
-        int rYear = getRand(minYear,Calendar.getInstance().get(Calendar.YEAR));
-        int rMonth = (rYear == Calendar.getInstance().get(Calendar.YEAR))?
-                getRand(0,Calendar.getInstance().get(Calendar.MONTH)):
-                getRand(0,11);
-        int rDay = (rYear == Calendar.getInstance().get(Calendar.YEAR) && ( rMonth == Calendar.getInstance().get(Calendar.MONTH)) )?
-                getRand(0,Calendar.getInstance().get(Calendar.DAY_OF_MONTH)):
-                getRand(0,30);
-        calendar.set(rYear,
-                rMonth,
-                rDay
+        int randomYear = getRand(minYear, Calendar.getInstance().get(Calendar.YEAR));
+        int randomMonth = (randomYear == Calendar.getInstance().get(Calendar.YEAR)) ?
+                getRand(0, Calendar.getInstance().get(Calendar.MONTH)) :
+                getRand(0, 11);
+        int randomDay = (randomYear == Calendar.getInstance().get(Calendar.YEAR) && (randomMonth == (int) Calendar.getInstance().get(Calendar.MONTH))) ?
+                getRand(0, Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) :
+                getRand(0, 30);
+        calendar.set(randomYear,
+                randomMonth,
+                randomDay
         );
-        return  calendar.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-    }
-    public static int getAgeByDate(LocalDate date){
-        Period period = Period.between ( date,LocalDate.now() );
-        return period.getYears ();
+        return calendar.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
-    public static String getRandomINN(int nRegion){
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(nRegion);
-        stringBuilder.append(String.format("%02d",getRand(10, 99)));
-        stringBuilder.append(String.format("%06d",getRand(1, 999999)));
+    static int getAgeByDate(LocalDate date) {
+        return Period.between(date, LocalDate.now()).getYears();
+    }
 
+    static String getRandomINN(int nRegion) {
+        StringBuilder stringBuilderINN = new StringBuilder();
+        stringBuilderINN.append(nRegion);
+        stringBuilderINN.append(String.format("%02d", getRand(10, 99)));
+        stringBuilderINN.append(String.format("%06d", getRand(1, 999999)));
 
         int[] COEF_1 = {7, 2, 4, 10, 3, 5, 9, 4, 6, 8};
         int[] COEF_2 = {3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8};
 
         long n11 = 0;
-        for (int i = 0 ; i<stringBuilder.length();i++){
-            n11 += COEF_1[i]*Character.getNumericValue(stringBuilder.charAt(i));
+        for (int i = 0; i < stringBuilderINN.length(); i++) {
+            n11 += COEF_1[i] * Character.getNumericValue(stringBuilderINN.charAt(i));
         }
         n11 = (n11 % 11) % 10;
-        stringBuilder.append(n11);
+        stringBuilderINN.append(n11);
         long n12 = 0;
-        for (int i = 0 ; i<stringBuilder.length();i++){
-            n12 += COEF_2[i]*Character.getNumericValue(stringBuilder.charAt(i));
+        for (int i = 0; i < stringBuilderINN.length(); i++) {
+            n12 += COEF_2[i] * Character.getNumericValue(stringBuilderINN.charAt(i));
         }
         n12 = (n12 % 11) % 10;
-
-
-        stringBuilder.append(n12);
-
-        return stringBuilder.toString();
+        stringBuilderINN.append(n12);
+        return stringBuilderINN.toString();
     }
-    public static SEX getRandomSex(){
 
-        return (getRand(0,Integer.MAX_VALUE-1) % 2 == 0)?SEX.MALE:SEX.FEMALE;
+    static SEX getRandomSex() {
+        return (getRand(0, Integer.MAX_VALUE - 1) % 2 == 0) ? SEX.MALE : SEX.FEMALE;
     }
-    public static String getRandomNumberHouse(int maxNumberHouse){
-        int nHouse = getRand(0,maxNumberHouse-1);
+
+    static String getRandomNumberHouse(int maxNumberHouse) {
+        int nHouse = getRand(0, maxNumberHouse - 1);
         // сделаю вероятность выпадения дробного номера дома 1 к 5
-        if (nHouse % 5 == 0){
-            int i1 = getRand(0, maxNumberHouse-1);
-            int i2 = getRand(0, i1);
-            return  i1 + " / "+ i2;
+        if (nHouse % 5 == 0) {
+            int iHouse = getRand(0, maxNumberHouse - 1);
+            int iHouseSecond = getRand(0, iHouse);
+            return iHouse + " / " + iHouseSecond;
         }
-        return String.valueOf(getRand(0, maxNumberHouse-1));
+        if (nHouse % 7 == 0) {
+            int iHouse = getRand(0, maxNumberHouse - 1);
+            int iHouseBuilding = getRand(0, 50);// 50 - максимальный номер корпуса из возможных
+            return iHouse + " к." + iHouseBuilding;
+        }
+        return String.valueOf(getRand(0, maxNumberHouse - 1));
     }
 }

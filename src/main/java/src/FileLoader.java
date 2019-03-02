@@ -3,37 +3,31 @@ package src;
 import java.io.*;
 import java.util.ArrayList;
 
-public class FileLoader {
-    public ArrayList<String> getListByFileName(String fileName){
+class FileLoader {
+    ArrayList<String> getListByFileName(String fileName) {
         ArrayList<String> linesFromFile = new ArrayList<>();
-        FileReader fr;
-        //try {
-            File myFile = new File(fileName);
+        FileReader fileReader;
+        File myFile = new File(fileName);
         try {
-            fr = new FileReader(myFile);
-        }
-        catch (FileNotFoundException ex){
+            fileReader = new FileReader(myFile);
+        } catch (FileNotFoundException ex) {
             return linesFromFile;
         }
-        BufferedReader reader = new BufferedReader(fr);
+        BufferedReader reader = new BufferedReader(fileReader);
         String line;
-
         try {
             while ((line = reader.readLine()) != null) {
                 if (!line.isEmpty())
                     linesFromFile.add(line);
             }
-        }
-        catch (IOException ex){
+        } catch (IOException ex) {
             return linesFromFile;
         }
-
         try {
             reader.close();
         } catch (IOException e) {
             return linesFromFile;
         }
-
         return linesFromFile;
     }
 }

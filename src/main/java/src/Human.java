@@ -6,7 +6,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 
-public class Human {
+class Human {
     @Getter
     @Setter
     private String name;
@@ -29,7 +29,7 @@ public class Human {
 
     @Getter
     @Setter
-    private LocalDate bithdayDate;
+    private LocalDate birthDay;
 
     @Getter
     @Setter
