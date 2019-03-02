@@ -7,13 +7,14 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 class PdfCreator {
-
+    private final static String fileName = "users.pdf";
     static void createPdfDocument(ArrayList<Human> humans, ArrayList<String> columnsList) throws DocumentException,
             IOException {
         PdfPTable table = new PdfPTable(new float[]{1, 1, 1, 0.5f, 0.4f, 1, 0.8f, 0.8f, 1, 1, 1.5f, 1, 0.6f, 0.6f});
@@ -47,13 +48,19 @@ class PdfCreator {
             table.addCell(getPDFPcell(String.valueOf(human.getNumberFlat())));
         }
 
-        File outFile = new File("users.pdf");
+        File outFile = new File(fileName);
         Document document = new Document(PageSize.A4.rotate(), 10f, 10f, 10f, 0f);
-        PdfWriter.getInstance(document, new FileOutputStream(outFile));
-        document.open();
-        document.add(table);
-        document.close();
-        System.out.println("PDF файл создан. Путь:" + outFile.getAbsolutePath());
+        try {
+            PdfWriter.getInstance(document, new FileOutputStream(outFile));
+            document.open();
+            document.add(table);
+            document.close();
+            System.out.println("PDF файл создан. Путь:" + outFile.getAbsolutePath());
+        }
+        catch (FileNotFoundException ex){
+            System.out.println("Файл "+fileName+" занят. Запись невозможна");
+        }
+
     }
 
     private static PdfPCell getPDFPcell(String text) {

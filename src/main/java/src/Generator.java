@@ -84,7 +84,7 @@ class Generator {
         if (nHouse % 7 == 0) {
             int iHouse = getRand(0, maxNumberHouse - 1);
             int iHouseBuilding = getRand(0, 50);// 50 - максимальный номер корпуса из возможных
-            return iHouse + " к." + iHouseBuilding;
+            return iHouse + " к. " + iHouseBuilding;
         }
         return String.valueOf(getRand(0, maxNumberHouse - 1));
     }

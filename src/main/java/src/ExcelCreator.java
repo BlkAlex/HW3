@@ -7,12 +7,15 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 class ExcelCreator {
+
+    private final static String fileName = "users.xls";
     static void createExcelTable(ArrayList<Human> humans, ArrayList<String> namesColumn) {
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("Просто лист");
@@ -28,13 +31,17 @@ class ExcelCreator {
         for (int i = 0; i < namesColumn.size(); i++) {
             sheet.autoSizeColumn(i);
         }
-        File outFile = new File("users.xls");
+        File outFile = new File(fileName);
         try (FileOutputStream out = new FileOutputStream(outFile)) {
             workbook.write(out);
-        } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Excel файл создан. Путь:" + outFile.getAbsolutePath());
+        } catch (FileNotFoundException e) {
+            System.out.println("Файл " + fileName + " занят. Запись невозможна");
         }
-        System.out.println("Excel файл создан. Путь:" + outFile.getAbsolutePath());
+        catch (IOException ex){
+            ex.printStackTrace();
+        }
+
     }
 
     private static void createSheetHeader(HSSFSheet sheet, int rowNum, Human human) {
