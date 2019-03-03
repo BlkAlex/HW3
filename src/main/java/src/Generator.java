@@ -8,8 +8,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Random;
 
-class Generator {
-    static int getRand(int minValue, int maxValue) {
+public class Generator {
+    public static int getRand(int minValue, int maxValue) {
         if (maxValue < minValue)
             return -1;
         int diff = maxValue - minValue;
@@ -19,19 +19,19 @@ class Generator {
         return i;
     }
 
-    static String getRandomStringFromList(ArrayList<String> inputList) {
+    public static String getRandomStringFromList(ArrayList<String> inputList) {
         if (inputList.isEmpty())
             return "";
         return inputList.get(getRand(0, inputList.size() - 1));
     }
 
-    static LocalDate getRandomDate(int minYear) {
+    public static LocalDate getRandomDate(int minYear) {
         Calendar calendar = new GregorianCalendar();
         int randomYear = getRand(minYear, Calendar.getInstance().get(Calendar.YEAR));
         int randomMonth = (randomYear == Calendar.getInstance().get(Calendar.YEAR)) ?
                 getRand(0, Calendar.getInstance().get(Calendar.MONTH)) :
                 getRand(0, 11);
-        int randomDay = (randomYear == Calendar.getInstance().get(Calendar.YEAR) && (randomMonth == (int) Calendar.getInstance().get(Calendar.MONTH))) ?
+        int randomDay = (randomYear == Calendar.getInstance().get(Calendar.YEAR) && (randomMonth == Calendar.getInstance().get(Calendar.MONTH))) ?
                 getRand(0, Calendar.getInstance().get(Calendar.DAY_OF_MONTH)) :
                 getRand(0, 30);
         calendar.set(randomYear,
@@ -41,11 +41,11 @@ class Generator {
         return calendar.getTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
-    static int getAgeByDate(LocalDate date) {
+    public static int getAgeByDate(LocalDate date) {
         return Period.between(date, LocalDate.now()).getYears();
     }
 
-    static String getRandomINN(int nRegion) {
+    public static String getRandomINN(int nRegion) {
         StringBuilder stringBuilderINN = new StringBuilder();
         stringBuilderINN.append(nRegion);
         stringBuilderINN.append(String.format("%02d", getRand(10, 99)));
@@ -74,16 +74,16 @@ class Generator {
     }
 
     static String getRandomNumberHouse(int maxNumberHouse) {
-        int nHouse = getRand(0, maxNumberHouse - 1);
+        int nHouse = getRand(1, maxNumberHouse - 1);
         // сделаю вероятность выпадения дробного номера дома 1 к 5
         if (nHouse % 5 == 0) {
-            int iHouse = getRand(0, maxNumberHouse - 1);
-            int iHouseSecond = getRand(0, iHouse);
+            int iHouse = getRand(1, maxNumberHouse - 1);
+            int iHouseSecond = getRand(1, iHouse);
             return iHouse + " / " + iHouseSecond;
         }
         if (nHouse % 7 == 0) {
             int iHouse = getRand(0, maxNumberHouse - 1);
-            int iHouseBuilding = getRand(0, 50);// 50 - максимальный номер корпуса из возможных
+            int iHouseBuilding = getRand(1, 50);// 50 - максимальный номер корпуса из возможных
             return iHouse + " к. " + iHouseBuilding;
         }
         return String.valueOf(getRand(0, maxNumberHouse - 1));

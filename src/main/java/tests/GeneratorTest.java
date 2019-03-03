@@ -1,6 +1,7 @@
-package src;
+package tests;
 
 import org.junit.Test;
+import src.Generator;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -49,11 +50,11 @@ public class GeneratorTest {
 
     @Test
     public void getRandomDate() {
-        assertFalse(Period.between(Generator.getRandomDate(1200), LocalDate.now()).isZero());
-        assertFalse(Period.between(Generator.getRandomDate(1450), LocalDate.now()).isZero());
-        assertFalse(Period.between(Generator.getRandomDate(1900), LocalDate.now()).isZero());
-        assertFalse(Period.between(Generator.getRandomDate(2019), LocalDate.now()).isZero());
-        assertFalse(Period.between(Generator.getRandomDate(2000), LocalDate.now()).isZero());
+        assertFalse(Period.between(Generator.getRandomDate(1200), LocalDate.now()).isNegative());
+        assertFalse(Period.between(Generator.getRandomDate(1450), LocalDate.now()).isNegative());
+        assertFalse(Period.between(Generator.getRandomDate(1900), LocalDate.now()).isNegative());
+        assertFalse(Period.between(Generator.getRandomDate(2019), LocalDate.now()).isNegative());
+        assertFalse(Period.between(Generator.getRandomDate(2000), LocalDate.now()).isNegative());
     }
 
 
