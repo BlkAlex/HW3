@@ -1,15 +1,16 @@
 package src;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 class FileLoader {
     ArrayList<String> getListByFileName(String fileName) {
         ArrayList<String> linesFromFile = new ArrayList<>();
-        FileReader fileReader;
+        InputStreamReader fileReader;
         File myFile = new File(fileName);
         try {
-            fileReader = new FileReader(myFile);
+            fileReader = new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8);
         } catch (FileNotFoundException ex) {
             return linesFromFile;
         }

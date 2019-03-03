@@ -7,25 +7,25 @@ import java.util.ArrayList;
 class InputParameters {
 
     @Getter
-    final static String fileMaleNames = "resources/MaleNames";
+    final static String fileMaleNames = "resources/MaleNames.txt";
     @Getter
-    final static String fileFemaleNames = "resources/FemaleNames";
+    final static String fileFemaleNames = "resources/FemaleNames.txt";
     @Getter
-    final static String fileMaleSurnames = "resources/MaleSurnames";
+    final static String fileMaleSurnames = "resources/MaleSurnames.txt";
     @Getter
-    final static String fileFemaleSurnames = "resources/FemaleSurnames";
+    final static String fileFemaleSurnames = "resources/FemaleSurnames.txt";
     @Getter
-    final static String fileMalePatronymic = "resources/MalePatronymic";
+    final static String fileMalePatronymic = "resources/MalePatronymic.txt";
     @Getter
-    final static String fileFemalePatronymic = "resources/FemalePatronymic";
+    final static String fileFemalePatronymic = "resources/FemalePatronymic.txt";
     @Getter
-    final static String fileCountries = "resources/Countries";
+    final static String fileCountries = "resources/Countries.txt";
     @Getter
-    final static String fileRegions = "resources/Regions";
+    final static String fileRegions = "resources/Regions.txt";
     @Getter
-    final static String fileTowns = "resources/Towns";
+    final static String fileTowns = "resources/Towns.txt";
     @Getter
-    final static String fileStreets = "resources/Streets";
+    final static String fileStreets = "resources/Streets.txt";
 
     @Getter
     final static int startRangeMailIndex = 100000;
