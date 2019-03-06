@@ -1,7 +1,7 @@
 package tests;
 
 import org.junit.Test;
-import src.Generator;
+import src.localGenerator.Generator;
 
 import java.time.LocalDate;
 import java.time.Period;

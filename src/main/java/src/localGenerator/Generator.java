@@ -1,4 +1,6 @@
-package src;
+package src.localGenerator;
+
+import src.SEX;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -70,11 +72,11 @@ public class Generator {
         return stringBuilderINN.toString();
     }
 
-    static SEX getRandomSex() {
+    public static SEX getRandomSex() {
         return (getRand(0, Integer.MAX_VALUE - 1) % 2 == 0) ? SEX.MALE : SEX.FEMALE;
     }
 
-    static String getRandomNumberHouse(int maxNumberHouse) {
+    public  static String getRandomNumberHouse(int maxNumberHouse) {
         int nHouse = getRand(1, maxNumberHouse - 1);
         // сделаю вероятность выпадения дробного номера дома 1 к 5
         if (nHouse % 5 == 0) {

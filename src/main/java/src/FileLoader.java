@@ -5,7 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 class FileLoader {
-    ArrayList<String> getListByFileName(String fileName) {
+    public static ArrayList<String> getListByFileName(String fileName) {
         ArrayList<String> linesFromFile = new ArrayList<>();
         InputStreamReader fileReader;
         try {
