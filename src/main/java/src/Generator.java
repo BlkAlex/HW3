@@ -45,6 +45,7 @@ public class Generator {
         return Period.between(date, LocalDate.now()).getYears();
     }
 
+
     public static String getRandomINN(int nRegion) {
         StringBuilder stringBuilderINN = new StringBuilder();
         stringBuilderINN.append(nRegion);
