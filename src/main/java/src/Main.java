@@ -63,7 +63,7 @@ class Main {
             e.printStackTrace();
         }
     }
-    public static Human fillHuman(){
+    private static Human fillHuman(){
         Human human = new Human();
         human.setSex(Generator.getRandomSex());
         human.setName(Generator.getRandomStringFromList((human.getSex() == SEX.MALE) ? glossary.get("maleNames") : glossary.get("femaleNames")));
@@ -82,7 +82,7 @@ class Main {
         return human;
     }
 
-    public static Human fillHuman(Human human){
+    private static Human fillHuman(Human human){
 
         if (human.getSex() == null)
             human.setSex(Generator.getRandomSex());
@@ -114,7 +114,7 @@ class Main {
         return human;
     }
 
-    public static Human convertUserPojoToHuman(UserPojo userPojo){
+    private static Human convertUserPojoToHuman(UserPojo userPojo){
         Human human = new Human();
         human.setName(userPojo.getFname());
         human.setSurname(userPojo.getLname());
@@ -131,8 +131,7 @@ class Main {
         human.setStreet(userPojo.getStreet());
         human.setNumberHouse(String.valueOf(userPojo.getHouse()));
         human.setNumberFlat(userPojo.getApartment());
-        human = fillHuman(human);
-        return human;
+        return fillHuman(human);
     }
 
     private static Map<String,ArrayList<String>> glossary;
