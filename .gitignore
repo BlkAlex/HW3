@@ -24,4 +24,5 @@ tmp/**
 *.war
 *.ear
 *.zip
-
+*.pdf
+*.xls

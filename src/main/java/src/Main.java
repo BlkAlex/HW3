@@ -7,6 +7,8 @@ import src.remoteApiGenerator.JsonParser;
 import src.remoteApiGenerator.UserPojo;
 
 import java.io.IOException;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -14,38 +16,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 class Main {
-    private static Map<String,ArrayList<String>> glossary;
-    public static void initGlossary(){
 
-        glossary.put("maleNames",FileLoader.getListByFileName(InputParameters.getFileMaleNames()));
-        glossary.put("femaleNames",FileLoader.getListByFileName(InputParameters.getFileFemaleNames()));
-        glossary.put("maleSurnames", FileLoader.getListByFileName(InputParameters.getFileMaleSurnames()));
-        glossary.put("femaleSurnames",FileLoader.getListByFileName(InputParameters.getFileFemaleSurnames()));
-        glossary.put("malePatronymics",FileLoader.getListByFileName(InputParameters.getFileMalePatronymic()));
-        glossary.put("femalePatronymics",FileLoader.getListByFileName(InputParameters.getFileFemalePatronymic()));
-        glossary.put("countries",FileLoader.getListByFileName(InputParameters.getFileCountries()));
-        glossary.put("towns",FileLoader.getListByFileName(InputParameters.getFileTowns()));
-        glossary.put("streets",FileLoader.getListByFileName(InputParameters.getFileStreets()));
-        glossary.put("regions",FileLoader.getListByFileName(InputParameters.getFileRegions()));
-    }
     public static void main(String[] args) {
+
         int countHumans = Generator.getRand(InputParameters.getMinCountUsers(), InputParameters.getMaxCountUsers());
+        System.out.println("Запущен генератор " + countHumans + " пользователей...\nПожалуйста подождите");
         glossary = new HashMap<>();
         initGlossary();
-
-
         ArrayList<Human> humans = new ArrayList<>();
-
-
         for (int i = 0 ; i < countHumans ; i++){
-            String response;
+            String response = "";
             try {
                 response = ApiReader.get();
-
             }catch (IOException ex){
-                break;
+                if (ex.getClass() == SocketException.class){
+                    System.out.println("Ошибка сокета. Отсутствует подключение к интернету.\nПолучено пользователей  " + humans.size());
+                    break;
+                }
+                if (ex.getClass() == SocketTimeoutException.class){
+                    System.out.println("Ошибка таймаута сокета. Отсутствует подключение к интернету.\nПолучено пользователей  " + humans.size());
+                    break;
+                }
+                ex.printStackTrace();
             }
-
             UserPojo upj;
             try {
                 upj = JsonParser.getHuman(response);
@@ -53,15 +46,15 @@ class Main {
                 e.printStackTrace();
                 continue;
             }
-
             humans.add(convertUserPojoToHuman(upj));
         }
 
 
-
-        for (int i = 0; i < countHumans - humans.size(); i++) {
+        int countNotAddedHumans = countHumans - humans.size();
+        for (int i = 0; i < countNotAddedHumans; i++) {
             humans.add(fillHuman());
         }
+        System.out.println("Сгенерировано пользователей  " + (countNotAddedHumans));
         ExcelCreator.createExcelTable(humans, InputParameters.getListNamesColumn());
 
         try {
@@ -109,7 +102,6 @@ class Main {
             human.setStreet(Generator.getRandomStringFromList(glossary.get("streets")));
         if (human.getBirthDay() == null)
             human.setBirthDay(Generator.getRandomDate(InputParameters.getMinYearOfBirth()));
-        //if (human.getAge() == null)
         human.setAge(Generator.getAgeByDate(human.getBirthDay()));
         if (human.getInn() == null)
             human.setInn(Generator.getRandomINN(InputParameters.getRegionINN()));
@@ -128,7 +120,7 @@ class Main {
         human.setSurname(userPojo.getLname());
         human.setPatronymic(userPojo.getPatronymic());
         human.setCountry(userPojo.getCounty());
-        human.setAge(userPojo.getAge()==null?-1:Integer.valueOf(userPojo.getAge()));
+        human.setAge(userPojo.getAge() == null?-1:Integer.valueOf(userPojo.getAge()));
         human.setBirthDay(LocalDate.parse(userPojo.getDate(),DateTimeFormatter.ofPattern("d MMMM yyyy")));
         human.setInn(userPojo.getInn());
         human.setSex(userPojo.getGender().toLowerCase().equals("m")?SEX.MALE:
@@ -141,5 +133,20 @@ class Main {
         human.setNumberFlat(userPojo.getApartment());
         human = fillHuman(human);
         return human;
+    }
+
+    private static Map<String,ArrayList<String>> glossary;
+    private static void initGlossary(){
+
+        glossary.put("maleNames",FileLoader.getListByFileName(InputParameters.getFileMaleNames()));
+        glossary.put("femaleNames",FileLoader.getListByFileName(InputParameters.getFileFemaleNames()));
+        glossary.put("maleSurnames", FileLoader.getListByFileName(InputParameters.getFileMaleSurnames()));
+        glossary.put("femaleSurnames",FileLoader.getListByFileName(InputParameters.getFileFemaleSurnames()));
+        glossary.put("malePatronymics",FileLoader.getListByFileName(InputParameters.getFileMalePatronymic()));
+        glossary.put("femalePatronymics",FileLoader.getListByFileName(InputParameters.getFileFemalePatronymic()));
+        glossary.put("countries",FileLoader.getListByFileName(InputParameters.getFileCountries()));
+        glossary.put("towns",FileLoader.getListByFileName(InputParameters.getFileTowns()));
+        glossary.put("streets",FileLoader.getListByFileName(InputParameters.getFileStreets()));
+        glossary.put("regions",FileLoader.getListByFileName(InputParameters.getFileRegions()));
     }
 }
