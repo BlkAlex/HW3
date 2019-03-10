@@ -1,14 +1,14 @@
-package src.localGenerator;
+package HumanCreator.generators;
 
-import src.SEX;
+import HumanCreator.FileLoader;
+import HumanCreator.InputParameters;
+import HumanCreator.enums.Gender;
+import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Random;
+import java.util.*;
 
 public class Generator {
     public static int getRand(int minValue, int maxValue) {
@@ -21,10 +21,11 @@ public class Generator {
         return i;
     }
 
-    public static String getRandomStringFromList(ArrayList<String> inputList) {
-        if (inputList.isEmpty())
+    public static String getRandomStringFromList(KeysGlossary keys) {
+        ArrayList<String> list = glossary.get(keys.getValue());
+        if (list.isEmpty())
             return "";
-        return inputList.get(getRand(0, inputList.size() - 1));
+        return list.get(getRand(0, list.size() - 1));
     }
 
     public static LocalDate getRandomDate(int minYear) {
@@ -72,8 +73,8 @@ public class Generator {
         return stringBuilderINN.toString();
     }
 
-    public static SEX getRandomSex() {
-        return (getRand(0, Integer.MAX_VALUE - 1) % 2 == 0) ? SEX.MALE : SEX.FEMALE;
+    public static Gender getRandomGender() {
+        return (getRand(0, Integer.MAX_VALUE - 1) % 2 == 0) ? Gender.MALE : Gender.FEMALE;
     }
 
     public  static String getRandomNumberHouse(int maxNumberHouse) {
@@ -90,5 +91,40 @@ public class Generator {
             return iHouse + " к. " + iHouseBuilding;
         }
         return String.valueOf(getRand(0, maxNumberHouse - 1));
+    }
+
+
+    private static Map<String,ArrayList<String>> glossary;
+    public static void initGlossary(){
+        glossary = new HashMap<>();
+        glossary.put(KeysGlossary.MALE_NAMES.getValue(), FileLoader.getListByFileName(InputParameters.FILE_MALE_NAMES));
+        glossary.put(KeysGlossary.FEMALE_NAMES.getValue(), FileLoader.getListByFileName(InputParameters.FILE_FEMALE_NAMES));
+        glossary.put(KeysGlossary.MALE_SURNAMES.getValue(), FileLoader.getListByFileName(InputParameters.FILE_MALE_SURNAMES));
+        glossary.put(KeysGlossary.FEMALE_SURNAMES.getValue(), FileLoader.getListByFileName(InputParameters.FILE_FEMALE_SURNAMES));
+        glossary.put(KeysGlossary.MALE_PATRONYMIC.getValue(), FileLoader.getListByFileName(InputParameters.FILE_MALE_PATRONYMIC));
+        glossary.put(KeysGlossary.FEMALE_PATRONYMIC.getValue(), FileLoader.getListByFileName(InputParameters.FILE_FEMALE_PATRONYMIC));
+        glossary.put(KeysGlossary.COUNTRIES.getValue(), FileLoader.getListByFileName(InputParameters.FILE_COUNTRIES));
+        glossary.put(KeysGlossary.TOWNS.getValue(), FileLoader.getListByFileName(InputParameters.FILE_TOWNS));
+        glossary.put(KeysGlossary.STREETS.getValue(), FileLoader.getListByFileName(InputParameters.FILE_STREETS));
+        glossary.put(KeysGlossary.REGIONS.getValue(), FileLoader.getListByFileName(InputParameters.FILE_REGIONS));
+    }
+    public enum KeysGlossary{
+        MALE_NAMES("maleNames"),
+        FEMALE_NAMES("femaleNames"),
+        MALE_SURNAMES("maleSurnames"),
+        FEMALE_SURNAMES("femaleSurnames"),
+        MALE_PATRONYMIC("malePatronymics"),
+        FEMALE_PATRONYMIC("femalePatronymics"),
+        COUNTRIES("countries"),
+        TOWNS("towns"),
+        STREETS("streets"),
+        REGIONS("regions");
+
+        @Getter
+        private final String value;
+
+        KeysGlossary(String value){
+          this.value = value;
+        }
     }
 }

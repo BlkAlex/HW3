@@ -1,4 +1,4 @@
-package src.remoteApiGenerator;
+package HumanCreator.generators.remoteApiGenerator;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

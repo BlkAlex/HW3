@@ -1,4 +1,4 @@
-package src.remoteApiGenerator;
+package HumanCreator.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

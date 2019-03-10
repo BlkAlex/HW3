@@ -1,10 +1,12 @@
-package src;
+package HumanCreator;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import HumanCreator.enums.Gender;
+import HumanCreator.model.Human;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,14 +31,14 @@ class PdfCreator {
             cell.setBackgroundColor(BaseColor.GRAY);
         }
         for (Human human : humans) {
-            table.addCell(getPDFPcell(human.getName()));//human.getName());
+            table.addCell(getPDFPcell(human.getName()));
             table.addCell(getPDFPcell(human.getSurname()));
             table.addCell(getPDFPcell(human.getPatronymic()));
             table.addCell(getPDFPcell(String.valueOf(human.getAge())));
             table.addCell((getPDFPcell(
-                    human.getSex() == SEX.MALE ?
-                            InputParameters.getMaleString() :
-                            InputParameters.getFemaleString())));
+                    human.getGender() == Gender.MALE ?
+                            InputParameters.MALE_STRING :
+                            InputParameters.FEMALE_STRING)));
             table.addCell(getPDFPcell(human.getBirthDay().format(DateTimeFormatter.ofPattern("dd-MM-YYYY"))));
             table.addCell(getPDFPcell(human.getInn()));
             table.addCell(getPDFPcell(String.valueOf(human.getMailIndex())));
@@ -58,7 +60,8 @@ class PdfCreator {
             System.out.println("PDF файл создан. Путь:" + outFile.getAbsolutePath());
         }
         catch (FileNotFoundException ex){
-            System.out.println("Файл "+fileName+" занят. Запись невозможна");
+            System.out.println("FileNotFoundException. Запись невозможна");
+            ex.printStackTrace();
         }
 
     }

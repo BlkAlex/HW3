@@ -1,11 +1,9 @@
-package tests;
 
 import org.junit.Test;
-import src.localGenerator.Generator;
+import HumanCreator.generators.Generator;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -27,26 +25,7 @@ public class GeneratorTest {
         return ((valRand >= min) && (valRand <= max));
     }
 
-    @Test
-    public void getRandomStringFromList() {
-        ArrayList<String> listWithData = new ArrayList<>();
-        listWithData.add(" ");
-        listWithData.add("11");
-        listWithData.add("22 ");
-        listWithData.add("/0");
-        listWithData.add("SomeString");
-        listWithData.add("Moscow");
-        listWithData.add("Peterburg");
-        listWithData.add("Тикси");
-        listWithData.add("Dkflbvbhjdbx");
-        listWithData.add("Владимирович");
-        listWithData.add("AnotherString");
-        listWithData.add("Goto");
 
-        assertTrue(listWithData.contains(Generator.getRandomStringFromList(listWithData)));
-        assertNotSame(" ", (Generator.getRandomStringFromList(new ArrayList<>())));
-
-    }
 
     @Test
     public void getRandomDate() {

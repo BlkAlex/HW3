@@ -1,10 +1,12 @@
-package src;
+package HumanCreator;
 
+import HumanCreator.enums.Gender;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
+import HumanCreator.model.Human;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -50,7 +52,7 @@ class ExcelCreator {
         row.createCell(1).setCellValue(human.getSurname());
         row.createCell(2).setCellValue(human.getPatronymic());
         row.createCell(3).setCellValue(human.getAge());
-        row.createCell(4).setCellValue(human.getSex() == SEX.MALE ? "М" : "Ж");
+        row.createCell(4).setCellValue(human.getGender() == Gender.MALE ? "М" : "Ж");
         row.createCell(5).setCellValue(human.getBirthDay().format(DateTimeFormatter.ofPattern("dd-MM-YYYY")));
         row.createCell(6).setCellValue(human.getInn());
         row.createCell(7).setCellValue(human.getMailIndex());

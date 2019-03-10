@@ -1,10 +1,10 @@
-package src;
+package HumanCreator;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-class FileLoader {
+public class FileLoader {
     public static ArrayList<String> getListByFileName(String fileName) {
         ArrayList<String> linesFromFile = new ArrayList<>();
         InputStreamReader fileReader;
@@ -12,6 +12,7 @@ class FileLoader {
             fileReader = new InputStreamReader(new FileInputStream(fileName),
                     StandardCharsets.UTF_8);
         } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
             return linesFromFile;
         }
         BufferedReader reader = new BufferedReader(fileReader);
