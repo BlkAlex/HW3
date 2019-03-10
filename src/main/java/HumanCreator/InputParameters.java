@@ -1,7 +1,5 @@
 package HumanCreator;
 
-import lombok.Getter;
-
 import java.util.ArrayList;
 
 public class InputParameters {

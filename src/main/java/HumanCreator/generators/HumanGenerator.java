@@ -9,10 +9,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class HumanGenerator {
-    public static Human getHuman(){
+    public static Human getHuman() {
         Gender gender = Generator.getRandomGender();
         LocalDate birthdayDate = Generator.getRandomDate(InputParameters.MIN_YEAR_OF_BIRTH);
-        Human human = new Human.Builder()
+        return new Human.Builder()
                 .setGender(gender)
                 .setName(Generator.getRandomStringFromList((gender == Gender.MALE) ? Generator.KeysGlossary.MALE_NAMES : Generator.KeysGlossary.FEMALE_NAMES))
                 .setSurname(Generator.getRandomStringFromList((gender == Gender.MALE) ? Generator.KeysGlossary.MALE_SURNAMES : Generator.KeysGlossary.FEMALE_SURNAMES))
@@ -28,24 +28,24 @@ public class HumanGenerator {
                 .setNumberHouse(Generator.getRandomNumberHouse(InputParameters.MAX_NUMBER_HOUSE))
                 .setNumberFlat(Generator.getRand(1, InputParameters.MAX_NUMBER_FLAT))
                 .build();
-        return human;
     }
-    public static Human getHumanFromUserPojo(UserPojo userPojo){
+
+    public static Human getHumanFromUserPojo(UserPojo userPojo) {
         Human localGeneratedHuman = getHuman();
-        Gender gender = userPojo.getGender().toLowerCase().equals("m")? Gender.MALE:
-                userPojo.getGender().toLowerCase().equals("w")? Gender.FEMALE:null;
+        Gender gender = userPojo.getGender().toLowerCase().equals("m") ? Gender.MALE :
+                userPojo.getGender().toLowerCase().equals("w") ? Gender.FEMALE : null;
         if (gender == null)
             gender = localGeneratedHuman.getGender();
-        Human human = new Human.Builder()
+        return new Human.Builder()
                 .setGender(gender)
                 .setName(userPojo.getFname() == null ? localGeneratedHuman.getName() : userPojo.getFname())
-                .setSurname(userPojo.getLname() == null? localGeneratedHuman.getSurname() : userPojo.getLname())
+                .setSurname(userPojo.getLname() == null ? localGeneratedHuman.getSurname() : userPojo.getLname())
                 .setPatronymic(userPojo.getPatronymic() == null ? localGeneratedHuman.getPatronymic() : userPojo.getPatronymic())
                 .setCountry(userPojo.getCounty() == null ? localGeneratedHuman.getCountry() : userPojo.getCounty())
                 .setRegion(userPojo.getRegion() == null ? localGeneratedHuman.getRegion() : userPojo.getRegion())
                 .setTown(userPojo.getCity() == null ? localGeneratedHuman.getTown() : userPojo.getCity())
                 .setStreet(userPojo.getStreet() == null ? localGeneratedHuman.getStreet() : userPojo.getStreet())
-                .setBirthday(userPojo.getDate() == null ? localGeneratedHuman.getBirthDay() :LocalDate.parse(userPojo.getDate(), DateTimeFormatter.ofPattern("d MMMM yyyy")))
+                .setBirthday(userPojo.getDate() == null ? localGeneratedHuman.getBirthDay() : LocalDate.parse(userPojo.getDate(), DateTimeFormatter.ofPattern("d MMMM yyyy")))
                 .setAge(userPojo.getAge() == null ? localGeneratedHuman.getAge() : Integer.valueOf(userPojo.getAge()))
                 .setInn(userPojo.getInn() == null ? localGeneratedHuman.getInn() : userPojo.getInn())
                 .setMailIndex(
@@ -53,8 +53,7 @@ public class HumanGenerator {
                                 ? localGeneratedHuman.getMailIndex() : Integer.valueOf(userPojo.getPostcode())
                 )
                 .setNumberHouse(userPojo.getHouse() == 0 ? localGeneratedHuman.getNumberHouse() : String.valueOf(userPojo.getHouse()))
-                .setNumberFlat(userPojo.getApartment() == 0 ? localGeneratedHuman.getNumberFlat() : userPojo.getApartment() )
+                .setNumberFlat(userPojo.getApartment() == 0 ? localGeneratedHuman.getNumberFlat() : userPojo.getApartment())
                 .build();
-        return human;
     }
 }

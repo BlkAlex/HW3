@@ -16,8 +16,8 @@ public class ApiReader {
                 .url("https://randus.org/api.php")
                 .build();
         Response response;
-            response = client.newCall(request).execute();
-            System.out.println(response.message());
+        response = client.newCall(request).execute();
+        System.out.println(response.message());
         if (response.body() != null) {
             return response.body().string();
         }

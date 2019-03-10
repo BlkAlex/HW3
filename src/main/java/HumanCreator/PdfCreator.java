@@ -1,12 +1,12 @@
 package HumanCreator;
 
+import HumanCreator.enums.Gender;
+import HumanCreator.model.Human;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import HumanCreator.enums.Gender;
-import HumanCreator.model.Human;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,11 +18,11 @@ import java.util.ArrayList;
 class PdfCreator {
     private final static String FILE_NAME = "users.pdf";
     private final static String FONT_PATH = "fonts/my_font.ttf";
+
     static void createPdfDocument(ArrayList<Human> humans, ArrayList<String> columnsList) throws DocumentException,
             IOException {
         PdfPTable table = new PdfPTable(new float[]{1, 1, 1, 0.5f, 0.4f, 1, 0.8f, 0.8f, 1, 1, 1.5f, 1, 0.6f, 0.6f});
         table.setWidthPercentage(100);
-        //Font f = new Font(Font.FontFamily.TIMES_ROMAN,50.0f,Font.NORMAL,BaseColor.GRAY);
         BaseFont font = BaseFont.createFont(FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
         for (String nameColumn : columnsList) {
             table.addCell(new PdfPCell(new Paragraph(nameColumn, new Font(font, 8))));
@@ -60,8 +60,7 @@ class PdfCreator {
             document.add(table);
             document.close();
             System.out.println("PDF файл создан. Путь:" + outFile.getAbsolutePath());
-        }
-        catch (FileNotFoundException ex){
+        } catch (FileNotFoundException ex) {
             System.out.println("FileNotFoundException. Запись невозможна");
             ex.printStackTrace();
         }

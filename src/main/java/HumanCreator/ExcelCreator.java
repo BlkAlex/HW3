@@ -1,12 +1,12 @@
 package HumanCreator;
 
 import HumanCreator.enums.Gender;
+import HumanCreator.model.Human;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
-import HumanCreator.model.Human;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,6 +18,7 @@ import java.util.ArrayList;
 class ExcelCreator {
 
     private final static String fileName = "users.xls";
+
     static void createExcelTable(ArrayList<Human> humans, ArrayList<String> namesColumn) {
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("Просто лист");
@@ -39,8 +40,7 @@ class ExcelCreator {
             System.out.println("Excel файл создан. Путь:" + outFile.getAbsolutePath());
         } catch (FileNotFoundException e) {
             System.out.println("Файл " + fileName + " занят. Запись невозможна");
-        }
-        catch (IOException ex){
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
 

@@ -1,12 +1,12 @@
 package HumanCreator;
 
-import HumanCreator.generators.HumanGenerator;
-import com.itextpdf.text.DocumentException;
 import HumanCreator.generators.Generator;
-import HumanCreator.model.Human;
+import HumanCreator.generators.HumanGenerator;
 import HumanCreator.generators.remoteApiGenerator.ApiReader;
 import HumanCreator.generators.remoteApiGenerator.JsonParser;
+import HumanCreator.model.Human;
 import HumanCreator.model.UserPojo;
+import com.itextpdf.text.DocumentException;
 
 import java.io.IOException;
 import java.net.SocketException;
@@ -20,7 +20,7 @@ class Main {
         int countHumans = Generator.getRand(InputParameters.MIN_COUNT_USERS, InputParameters.MAX_COUNT_USERS);
         System.out.println("Запущен генератор " + countHumans + " пользователей...\nПожалуйста подождите");
         Generator.initGlossary();
-        ArrayList<Human> humans ;
+        ArrayList<Human> humans;
         humans = getHumansWithAPI(countHumans);
 
         System.out.println("Получено пользователей  " + (humans.size()));
@@ -37,24 +37,24 @@ class Main {
             e.printStackTrace();
         }
     }
-    private static ArrayList<Human> getHumansWithAPI(int countHumans){
-        ArrayList <Human> humans = new ArrayList<>();
-        for (int i = 0 ; i < countHumans ; i++){
-            String response = "";
+
+    private static ArrayList<Human> getHumansWithAPI(int countHumans) {
+        ArrayList<Human> humans = new ArrayList<>();
+        for (int i = 0; i < countHumans; i++) {
+            String response;
             try {
                 response = ApiReader.get();
-            }catch (IOException ex){
-                if (ex.getClass() == SocketException.class){
+            } catch (IOException ex) {
+                if (ex.getClass() == SocketException.class) {
                     System.out.println("Ошибка сокета. ");
                     ex.printStackTrace();
                     break;
                 }
-                if (ex.getClass() == SocketTimeoutException.class){
+                if (ex.getClass() == SocketTimeoutException.class) {
                     System.out.println("Ошибка таймаута сокета.");
                     ex.printStackTrace();
                     break;
-                }
-                else {
+                } else {
                     System.out.println("Неизвестная ошибка сети.");
                     ex.printStackTrace();
                     break;
@@ -71,8 +71,6 @@ class Main {
         }
         return humans;
     }
-
-
 
 
 }

@@ -1,7 +1,7 @@
 package HumanCreator.model;
 
-import lombok.Getter;
 import HumanCreator.enums.Gender;
+import lombok.Getter;
 
 import java.time.LocalDate;
 
@@ -47,81 +47,88 @@ public class Human {
 
     @Getter
     private int numberFlat;
-    private Human(){
+
+    private Human() {
     }
 
-    public static class Builder{
-        Human human;
-        public Builder(){
+    public static class Builder {
+        final Human human;
+
+        public Builder() {
             human = new Human();
         }
-        public Builder setName(String name){
+
+        public Builder setName(String name) {
             human.name = name;
             return this;
         }
 
-        public Builder setSurname(String surname){
+        public Builder setSurname(String surname) {
             human.surname = surname;
             return this;
         }
 
-        public Builder setPatronymic(String patronymic){
+        public Builder setPatronymic(String patronymic) {
             human.patronymic = patronymic;
             return this;
         }
 
-        public Builder setCountry(String country){
+        public Builder setCountry(String country) {
             human.country = country;
             return this;
         }
 
-        public Builder setBirthday(LocalDate birthday){
+        public Builder setBirthday(LocalDate birthday) {
             human.birthDay = birthday;
             return this;
         }
-        public Builder setAge(int age){
+
+        public Builder setAge(int age) {
             human.age = age;
             return this;
         }
 
-        public Builder setInn(String inn){
+        public Builder setInn(String inn) {
             human.inn = inn;
             return this;
         }
-        public Builder setGender(Gender gender){
+
+        public Builder setGender(Gender gender) {
             human.gender = gender;
             return this;
         }
 
-        public Builder setMailIndex(int mailIndex){
+        public Builder setMailIndex(int mailIndex) {
             human.mailIndex = mailIndex;
             return this;
         }
 
-        public Builder setRegion(String region){
+        public Builder setRegion(String region) {
             human.region = region;
             return this;
         }
-        public Builder setTown(String town){
+
+        public Builder setTown(String town) {
             human.town = town;
             return this;
         }
 
-        public Builder setStreet(String street){
+        public Builder setStreet(String street) {
             human.street = street;
             return this;
         }
-        public Builder setNumberHouse(String numberHouse){
+
+        public Builder setNumberHouse(String numberHouse) {
             human.numberHouse = numberHouse;
             return this;
         }
 
-        public Builder setNumberFlat(int numberFlat){
+        public Builder setNumberFlat(int numberFlat) {
             human.numberFlat = numberFlat;
             return this;
         }
 
-        public Human build(){
+        public Human build() {
             return human;
         }
     }

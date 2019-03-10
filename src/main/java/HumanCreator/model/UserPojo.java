@@ -69,7 +69,6 @@ public class UserPojo {
     private String country;
 
 
-
     @JsonProperty("lname")
     public String getLname() {
         return lname;

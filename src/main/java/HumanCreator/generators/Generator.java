@@ -77,9 +77,8 @@ public class Generator {
         return (getRand(0, Integer.MAX_VALUE - 1) % 2 == 0) ? Gender.MALE : Gender.FEMALE;
     }
 
-    public  static String getRandomNumberHouse(int maxNumberHouse) {
+    public static String getRandomNumberHouse(int maxNumberHouse) {
         int nHouse = getRand(1, maxNumberHouse - 1);
-        // сделаю вероятность выпадения дробного номера дома 1 к 5
         if (nHouse % 5 == 0) {
             int iHouse = getRand(1, maxNumberHouse - 1);
             int iHouseSecond = getRand(1, iHouse);
@@ -87,15 +86,16 @@ public class Generator {
         }
         if (nHouse % 7 == 0) {
             int iHouse = getRand(0, maxNumberHouse - 1);
-            int iHouseBuilding = getRand(1, 50);// 50 - максимальный номер корпуса из возможных
+            int iHouseBuilding = getRand(1, 50);
             return iHouse + " к. " + iHouseBuilding;
         }
         return String.valueOf(getRand(0, maxNumberHouse - 1));
     }
 
 
-    private static Map<String,ArrayList<String>> glossary;
-    public static void initGlossary(){
+    private static Map<String, ArrayList<String>> glossary;
+
+    public static void initGlossary() {
         glossary = new HashMap<>();
         glossary.put(KeysGlossary.MALE_NAMES.getValue(), FileLoader.getListByFileName(InputParameters.FILE_MALE_NAMES));
         glossary.put(KeysGlossary.FEMALE_NAMES.getValue(), FileLoader.getListByFileName(InputParameters.FILE_FEMALE_NAMES));
@@ -108,7 +108,8 @@ public class Generator {
         glossary.put(KeysGlossary.STREETS.getValue(), FileLoader.getListByFileName(InputParameters.FILE_STREETS));
         glossary.put(KeysGlossary.REGIONS.getValue(), FileLoader.getListByFileName(InputParameters.FILE_REGIONS));
     }
-    public enum KeysGlossary{
+
+    public enum KeysGlossary {
         MALE_NAMES("maleNames"),
         FEMALE_NAMES("femaleNames"),
         MALE_SURNAMES("maleSurnames"),
@@ -123,8 +124,8 @@ public class Generator {
         @Getter
         private final String value;
 
-        KeysGlossary(String value){
-          this.value = value;
+        KeysGlossary(String value) {
+            this.value = value;
         }
     }
 }
