@@ -22,8 +22,8 @@ public class InputParameters {
     final static int MIN_COUNT_USERS = 1;
     final static int MAX_COUNT_USERS = 30;
     public final static int REGION_INN = 77;
-    final static String MALE_STRING = "М";
-    final static String FEMALE_STRING = "Ж";
+    public final static String MALE_STRING = "М";
+    public final static String FEMALE_STRING = "Ж";
 
     private static ArrayList<String> namesColumn;
 

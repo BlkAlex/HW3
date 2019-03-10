@@ -1,6 +1,6 @@
 
 import org.junit.Test;
-import HumanCreator.generators.Generator;
+import HumanCreator.generators.localGenerator.Generator;
 
 import java.time.LocalDate;
 import java.time.Period;

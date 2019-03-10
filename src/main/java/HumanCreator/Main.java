@@ -1,11 +1,13 @@
 package HumanCreator;
 
-import HumanCreator.generators.Generator;
+import HumanCreator.generators.localGenerator.Generator;
 import HumanCreator.generators.HumanGenerator;
 import HumanCreator.generators.remoteApiGenerator.ApiReader;
 import HumanCreator.generators.remoteApiGenerator.JsonParser;
 import HumanCreator.model.Human;
 import HumanCreator.model.UserPojo;
+import HumanCreator.outCreators.ExcelCreator;
+import HumanCreator.outCreators.PdfCreator;
 import com.itextpdf.text.DocumentException;
 
 import java.io.IOException;

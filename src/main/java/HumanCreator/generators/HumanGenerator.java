@@ -2,6 +2,7 @@ package HumanCreator.generators;
 
 import HumanCreator.InputParameters;
 import HumanCreator.enums.Gender;
+import HumanCreator.generators.localGenerator.Generator;
 import HumanCreator.model.Human;
 import HumanCreator.model.UserPojo;
 
