@@ -1,7 +1,7 @@
 package HumanCreator;
 
-import HumanCreator.generators.localGenerator.Generator;
 import HumanCreator.generators.HumanGenerator;
+import HumanCreator.generators.localGenerator.Generator;
 import HumanCreator.generators.remoteApiGenerator.ApiReader;
 import HumanCreator.generators.remoteApiGenerator.JsonParser;
 import HumanCreator.model.Human;
@@ -11,8 +11,6 @@ import HumanCreator.outCreators.PdfCreator;
 import com.itextpdf.text.DocumentException;
 
 import java.io.IOException;
-import java.net.SocketException;
-import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
 class Main {
@@ -35,8 +33,8 @@ class Main {
 
         try {
             PdfCreator.createPdfDocument(humans, InputParameters.getListNamesColumn());
-        } catch (DocumentException | IOException e) {
-            e.printStackTrace();
+        } catch (DocumentException | IOException ex) {
+            System.out.println(ex.toString());
         }
     }
 
@@ -47,26 +45,14 @@ class Main {
             try {
                 response = ApiReader.get();
             } catch (IOException ex) {
-                if (ex.getClass() == SocketException.class) {
-                    System.out.println("Ошибка сокета. ");
-                    ex.printStackTrace();
-                    break;
-                }
-                if (ex.getClass() == SocketTimeoutException.class) {
-                    System.out.println("Ошибка таймаута сокета.");
-                    ex.printStackTrace();
-                    break;
-                } else {
-                    System.out.println("Неизвестная ошибка сети.");
-                    ex.printStackTrace();
-                    break;
-                }
+                System.out.println(ex.toString());
+                break;
             }
             UserPojo upj;
             try {
                 upj = JsonParser.getHuman(response);
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ex) {
+                System.out.println(ex.toString());
                 continue;
             }
             humans.add(HumanGenerator.getHumanFromUserPojo(upj));

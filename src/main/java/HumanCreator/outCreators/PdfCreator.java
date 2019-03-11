@@ -62,8 +62,7 @@ public class PdfCreator {
             document.close();
             System.out.println("PDF файл создан. Путь:" + outFile.getAbsolutePath());
         } catch (FileNotFoundException ex) {
-            System.out.println("FileNotFoundException. Запись невозможна");
-            ex.printStackTrace();
+            System.out.println(ex.toString());
         }
 
     }
@@ -72,8 +71,8 @@ public class PdfCreator {
         BaseFont font = null;
         try {
             font = BaseFont.createFont(FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        } catch (DocumentException | IOException e) {
-            e.printStackTrace();
+        } catch (DocumentException | IOException ex) {
+            System.out.println(ex.toString());
         }
         Font myFont = new Font(font, 8);
         PdfPCell pdfCell = new PdfPCell(new Paragraph(text, myFont));

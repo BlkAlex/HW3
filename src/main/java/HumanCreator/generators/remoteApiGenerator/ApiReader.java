@@ -17,7 +17,6 @@ public class ApiReader {
                 .build();
         Response response;
         response = client.newCall(request).execute();
-        System.out.println(response.message());
         if (response.body() != null) {
             return response.body().string();
         }
