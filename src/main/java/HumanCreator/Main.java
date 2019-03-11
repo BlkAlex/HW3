@@ -18,7 +18,7 @@ class Main {
     public static void main(String[] args) {
 
         int countHumans = Generator.getRand(InputParameters.MIN_COUNT_USERS, InputParameters.MAX_COUNT_USERS);
-        System.out.println("Запущен генератор " + countHumans + " пользователей...\nПожалуйста подождите");
+        System.out.println("Запущен генератор " + countHumans + " пользователей...\nПожалуйста подождите...");
         Generator.initGlossary();
         ArrayList<Human> humans;
         humans = getHumansWithAPI(countHumans);
