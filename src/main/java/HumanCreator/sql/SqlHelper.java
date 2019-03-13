@@ -13,20 +13,30 @@ public class SqlHelper {
     private static Statement stmt;
     private static ResultSet rs;
 
+    private static ResultSet getResultByQuery(String query){
+        try {
+            con = DriverManager.getConnection(URL, USER, PASS);
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+            return rs;
+
+        } catch (SQLException sqlEx) {
+            sqlEx.printStackTrace();
+        } finally {
+
+            try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+            try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+            try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+        }
+
+        return null;
+    }
     public static void testStart(){
         String query = "select * from HUMANS.test ";
-
         try {
-            // opening database connection to MySQL server
-
             con = DriverManager.getConnection(URL, USER, PASS);
-
-            // getting Statement object to execute query
             stmt = con.createStatement();
-
-            // executing SELECT query
             rs = stmt.executeQuery(query);
-
             while (rs.next()) {
                 int id = rs.getInt(1);
                 String name = rs.getString(2);
@@ -43,10 +53,49 @@ public class SqlHelper {
             try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
         }
     }
+
+    private static int putHumanToDB(Human human){
+        StringBuilder queryAddress = new StringBuilder().append("INSERT INTO address (postcode,country,region,city,street,house,flat) VALUES (")
+                .append("\"").append(human.getMailIndex()).append("\",")
+                .append("\"").append(human.getCountry()).append("\",")
+                .append("\"").append(human.getRegion()).append("\",")
+                .append("\"").append(human.getTown()).append("\",")
+                .append("\"").append(human.getStreet()).append("\",")
+                .append(human.getNumberHouse()).append(",")
+                .append(human.getNumberFlat()).append(")");
+
+
+        try {
+            con = DriverManager.getConnection(URL, USER, PASS);
+            stmt = con.createStatement();
+            int res = stmt.executeUpdate(queryAddress.toString());
+            return res;
+
+        } catch (SQLException sqlEx) {
+            sqlEx.printStackTrace();
+        } finally {
+
+            try { con.close(); } catch(SQLException se) { /*can't do anything */ }
+            try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
+            try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
+        }
+
+
+        StringBuilder queryPerson = new StringBuilder().append("INSERT INTO person (surname,name,birthday,gender,inn,address_id) VALUES (")
+                .append("\"").append(human.getMailIndex()).append("\",")
+                .append("\"").append(human.getCountry()).append("\",")
+                .append("\"").append(human.getRegion()).append("\",")
+                .append("\"").append(human.getTown()).append("\",")
+                .append("\"").append(human.getStreet()).append("\",")
+                .append(human.getNumberHouse()).append(",")
+                .append(human.getNumberFlat()).append(")");
+
+        return -1;
+    }
     public static void putHumanListToDB(ArrayList<Human> humans){
             for (Human human: humans) {
                 if (!isDBhasHuman(human)){
-                    //insert
+                    putHumanToDB(human);
                 }
                 else {
                     //update
@@ -59,6 +108,11 @@ public class SqlHelper {
         return humans;
     }
     private static boolean isDBhasHuman(Human human){
+        StringBuilder sb = new StringBuilder()
+                .append("SELECT * FROM persons where name= \"").append(human.getName())
+                .append("\" AND surname=\"").append(human.getSurname())
+                .append("\" AND middlename=\"").append(human.getPatronymic()).append("\"");
+        ResultSet resultSet = getResultByQuery(sb.toString());
         return false;
     }
 }
