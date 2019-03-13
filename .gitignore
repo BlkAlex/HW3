@@ -26,3 +26,4 @@ tmp/**
 *.zip
 *.pdf
 *.xls
+sqlparams
