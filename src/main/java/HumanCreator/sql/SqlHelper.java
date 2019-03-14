@@ -94,7 +94,7 @@ public class SqlHelper {
     }
     public static void putHumanListToDB(ArrayList<Human> humans){
             for (Human human: humans) {
-                if (!isDBhasHuman(human)){
+                if (!isDBhasFIO(human)) {
                     putHumanToDB(human);
                 }
                 else {
@@ -107,11 +107,25 @@ public class SqlHelper {
         //getting humans in iteration
         return humans;
     }
-    private static boolean isDBhasHuman(Human human){
+
+    private static boolean isDBhasFIO(Human human) {
         StringBuilder sb = new StringBuilder()
                 .append("SELECT * FROM persons where name= \"").append(human.getName())
                 .append("\" AND surname=\"").append(human.getSurname())
                 .append("\" AND middlename=\"").append(human.getPatronymic()).append("\"");
+        ResultSet resultSet = getResultByQuery(sb.toString());
+        return false;
+    }
+
+    private static boolean isDBhasAddress(Human human) {
+        StringBuilder sb = new StringBuilder()
+                .append("SELECT * FROM address where postcode= \"").append(human.getName())
+                .append("\" AND country=\"").append(human.getCountry())
+                .append("\" AND region=\"").append(human.getRegion())
+                .append("\" AND city=\"").append(human.getPatronymic())
+                .append("\" AND street=\"").append(human.getPatronymic())
+                .append("\" AND house=").append(human.getPatronymic())
+                .append(" AND =").append(human.getPatronymic());
         ResultSet resultSet = getResultByQuery(sb.toString());
         return false;
     }
