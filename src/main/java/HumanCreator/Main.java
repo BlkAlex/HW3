@@ -8,6 +8,7 @@ import HumanCreator.model.Human;
 import HumanCreator.model.UserPojo;
 import HumanCreator.outCreators.ExcelCreator;
 import HumanCreator.outCreators.PdfCreator;
+import HumanCreator.sql.SQLHumanAdapter;
 import HumanCreator.sql.SqlHelper;
 import com.itextpdf.text.DocumentException;
 
@@ -17,7 +18,8 @@ import java.util.ArrayList;
 class Main {
 
     public static void main(String[] args) {
-        SqlHelper.testStart();
+        //  SqlHelper.testStart();
+        SQLHumanAdapter.initDbParams();
         int countHumans = Generator.getRand(InputParameters.MIN_COUNT_USERS, InputParameters.MAX_COUNT_USERS);
         System.out.println("Запущен генератор " + countHumans + " пользователей...\nПожалуйста подождите...");
         Generator.initGlossary();
@@ -25,7 +27,8 @@ class Main {
 
         humans = getHumansWithAPI(countHumans);
         if (humans.size() > 0)
-            SqlHelper.putHumanListToDB(humans);
+            //SqlHelper.putHumanListToDB(humans);
+            SQLHumanAdapter.putHumanListToDB(humans);
         else
             humans = SqlHelper.getHumansListFromDB();
 

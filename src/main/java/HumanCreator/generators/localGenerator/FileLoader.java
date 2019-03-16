@@ -4,8 +4,8 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-class FileLoader {
-    static ArrayList<String> getListByFileName(String fileName) {
+public class FileLoader {
+    public static ArrayList<String> getListByFileName(String fileName) {
         ArrayList<String> linesFromFile = new ArrayList<>();
         InputStreamReader fileReader;
         try {
