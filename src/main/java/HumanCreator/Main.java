@@ -26,9 +26,11 @@ class Main {
         ArrayList<Human> humans;
 
         humans = getHumansWithAPI(countHumans);
-        if (humans.size() > 0)
+        if (humans.size() > 0) {
             //SqlHelper.putHumanListToDB(humans);
+            SQLHumanAdapter.testHumans();
             SQLHumanAdapter.putHumanListToDB(humans);
+        }
         else
             humans = SqlHelper.getHumansListFromDB();
 

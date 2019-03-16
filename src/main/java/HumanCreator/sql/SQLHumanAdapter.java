@@ -2,9 +2,11 @@ package HumanCreator.sql;
 
 import HumanCreator.enums.Gender;
 import HumanCreator.generators.localGenerator.FileLoader;
+import HumanCreator.generators.localGenerator.Generator;
 import HumanCreator.model.Human;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class SQLHumanAdapter {
@@ -16,6 +18,28 @@ public class SQLHumanAdapter {
     private static Connection con;
     private static Statement stmt;
     private static ResultSet rs;
+
+    public static void testHumans() {
+        //addr id 79
+        Human human = new Human.Builder()
+                .setGender(Gender.MALE)
+                .setName("Аверьян")
+                .setSurname("Николаев")
+                .setPatronymic("Кириллович")
+                .setCountry("Страна")
+                .setRegion("Регион")
+                .setTown("Город")
+                .setStreet("Улица")
+                .setBirthday(LocalDate.of(1900, 12, 5))
+                .setAge(Generator.getAgeByDate(LocalDate.of(1993, 7, 5)))
+                .setInn("000000000000")
+                .setMailIndex(111111)
+                .setNumberHouse("11")
+                .setNumberFlat(11)
+                .build();
+
+        putHumanToDB(human);
+    }
 
 
     public static void initDbParams() {
@@ -50,7 +74,7 @@ public class SQLHumanAdapter {
             }
         } else {
             updateHumanInPesons(human, idHumanInDB);
-            updateHumanInAddress(human, getAddressIdInPersonsDB(human));
+            updateHumanInAddress(human, getAddressIdInPersonsDB(idHumanInDB));
         }
     }
 
@@ -118,14 +142,14 @@ public class SQLHumanAdapter {
 
     public static void updateHumanInPesons(Human human, int humanID) {
         StringBuilder updateQueryPerson = new StringBuilder()
-                .append("UPDATE humans SET= \"").append(human.getName())
-                .append("\", surname=\"").append(human.getCountry())
-                .append("\", name=\"").append(human.getRegion())
-                .append("\", middlename=\"").append(human.getTown())
-                .append("\", birthday=\"").append(human.getStreet())
-                .append("\", gender=").append(human.getNumberHouse())
-                .append("\", inn=").append(human.getNumberHouse())
-                .append("WHERE id = ").append(humanID).append(";");
+                .append("UPDATE persons SET ")
+                .append("surname=\"").append(human.getSurname())
+                .append("\", name=\"").append(human.getName())
+                .append("\", middlename=\"").append(human.getPatronymic())
+                .append("\", birthday=\"").append(human.getBirthDay())
+                .append("\", gender=\"").append((human.getGender() == Gender.MALE) ? "М" : "Ж")
+                .append("\", inn=\"").append(human.getInn())
+                .append("\" WHERE id = ").append(humanID).append(";");
         try {
             con = DriverManager.getConnection(URL, USER, PASS);
             stmt = con.createStatement();
@@ -150,14 +174,14 @@ public class SQLHumanAdapter {
 
     public static void updateHumanInAddress(Human human, int addressID) {
         StringBuilder updateQueryAddress = new StringBuilder()
-                .append("UPDATE address SET= \"").append(human.getName())
+                .append("UPDATE address SET postcode=\"").append(human.getMailIndex())
                 .append("\", country=\"").append(human.getCountry())
                 .append("\", region=\"").append(human.getRegion())
                 .append("\", city=\"").append(human.getTown())
                 .append("\", street=\"").append(human.getStreet())
                 .append("\", house=").append(human.getNumberHouse())
                 .append(", flat =").append(human.getNumberFlat())
-                .append("WHERE id = ").append(addressID).append(";");
+                .append(" WHERE id = ").append(addressID).append(";");
         try {
             con = DriverManager.getConnection(URL, USER, PASS);
             stmt = con.createStatement();
@@ -211,10 +235,32 @@ public class SQLHumanAdapter {
         return -1;// либо это индекс , либо -1 если нет такого
     }
 
-    public static int getAddressIdInPersonsDB(Human human) {
-        // do query
-        // get result
+    public static int getAddressIdInPersonsDB(int idHuman) {
+        StringBuilder query = new StringBuilder()
+                .append("SELECT * FROM persons where id= \"").append(idHuman).append("\";");
 
+        try {
+            con = DriverManager.getConnection(URL, USER, PASS);
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query.toString());
+            if (rs.next()) {
+                return rs.getInt("address_id");
+            }
+
+        } catch (SQLException sqlEx) {
+            sqlEx.printStackTrace();
+        } finally {
+            //close connection ,stmt and resultset here
+            try {
+                con.close();
+            } catch (SQLException se) { /*can't do anything */ }
+            try {
+                stmt.close();
+            } catch (SQLException se) { /*can't do anything */ }
+            try {
+                rs.close();
+            } catch (SQLException se) { /*can't do anything */ }
+        }
         return -1;// либо это индекс , либо -1 если нет такого
     }
 
