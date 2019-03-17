@@ -13,9 +13,9 @@ import java.util.HashMap;
 
 public class SQLHumansAdapter {
 
-    private static String URL;
-    private static String USER;
-    private static String PASS;
+    private static String Url;
+    private static String User;
+    private static String Password;
 
     private static Connection con;
     private static Statement stmt;
@@ -27,7 +27,7 @@ public class SQLHumansAdapter {
 
         getResultMapBySelectQuery(query);
         try {
-            con = DriverManager.getConnection(URL, USER, PASS);
+            con = DriverManager.getConnection(Url, User, Password);
             stmt = con.createStatement();
             rs = stmt.executeQuery(query);
             while (rs.next()) {
@@ -74,7 +74,7 @@ public class SQLHumansAdapter {
     private static ArrayList<HashMap<String, String>> getResultMapBySelectQuery(String query) {
         ArrayList<HashMap<String, String>> hashMapArrayList = new ArrayList<>();
         try {
-            con = DriverManager.getConnection(URL, USER, PASS);
+            con = DriverManager.getConnection(Url, User, Password);
             stmt = con.createStatement();
             rs = stmt.executeQuery(query);
             ResultSetMetaData rsmd = rs.getMetaData();
@@ -112,7 +112,7 @@ public class SQLHumansAdapter {
     private static int getResultByUpdateQuery(String query) {
         int countRows = 0;
         try {
-            con = DriverManager.getConnection(URL, USER, PASS);
+            con = DriverManager.getConnection(Url, User, Password);
             stmt = con.createStatement();
             countRows = stmt.executeUpdate(query);
         } catch (SQLException sqlEx) {
@@ -140,9 +140,9 @@ public class SQLHumansAdapter {
     public static void initDbParams() {
         ArrayList<String> listSQL = FileLoader.getListByFileName("src/main/resources/SQLParams");
         if (listSQL.size() > 2) {
-            URL = listSQL.get(0);
-            USER = listSQL.get(1);
-            PASS = listSQL.get(2);
+            Url = listSQL.get(0);
+            User = listSQL.get(1);
+            Password = listSQL.get(2);
         }
     }
 
