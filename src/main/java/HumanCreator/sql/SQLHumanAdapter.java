@@ -7,6 +7,7 @@ import HumanCreator.model.Human;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class SQLHumanAdapter {
@@ -59,8 +60,8 @@ public class SQLHumanAdapter {
                         .setRegion(rs.getString("region"))
                         .setTown(rs.getString("city"))
                         .setStreet(rs.getString("street"))
-                        // .setBirthday(LocalDate.parse(rs.getString("birthday")))
-                        //.setAge(Generator.getAgeByDate(LocalDate.parse(rs.getString("birthday"), DateTimeFormatter.ofPattern("YYYY-MM-DD"))))
+                        .setBirthday(LocalDate.parse(rs.getString("birthday"), DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                        .setAge(Generator.getAgeByDate(LocalDate.parse(rs.getString("birthday"), DateTimeFormatter.ofPattern("yyyy-MM-dd"))))
                         .setInn(rs.getString("inn"))
                         .setMailIndex(Integer.valueOf(rs.getString("postcode")))
                         .setNumberHouse(rs.getString("house"))
