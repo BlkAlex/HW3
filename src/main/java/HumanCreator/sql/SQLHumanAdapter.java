@@ -41,6 +41,54 @@ public class SQLHumanAdapter {
         putHumanToDB(human);
     }
 
+    public static ArrayList<Human> getHumansListFromDB(int count) {
+        ArrayList<Human> humans = new ArrayList<>();
+        //выводим лимит (коунт) . получаем айдишник адреса из записи, и читаем таблиуу с адресами
+        String query = new StringBuilder().append("SELECT * FROM persons INNER JOIN address ON persons.address_id = address.id LIMIT ").append(count).append(";").toString();
+        try {
+            con = DriverManager.getConnection(URL, USER, PASS);
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Human human = new Human.Builder()
+                        .setGender(rs.getString("gender").equals("М") ? Gender.MALE : Gender.FEMALE)
+                        .setName(rs.getString("name"))
+                        .setSurname(rs.getString("surname"))
+                        .setPatronymic(rs.getString("middlename"))
+                        .setCountry(rs.getString("country"))
+                        .setRegion(rs.getString("region"))
+                        .setTown(rs.getString("city"))
+                        .setStreet(rs.getString("street"))
+                        // .setBirthday(LocalDate.parse(rs.getString("birthday")))
+                        //.setAge(Generator.getAgeByDate(LocalDate.parse(rs.getString("birthday"), DateTimeFormatter.ofPattern("YYYY-MM-DD"))))
+                        .setInn(rs.getString("inn"))
+                        .setMailIndex(Integer.valueOf(rs.getString("postcode")))
+                        .setNumberHouse(rs.getString("house"))
+                        .setNumberFlat(Integer.valueOf(rs.getString("flat")))
+                        .build();
+                humans.add(human);
+
+            }
+
+        } catch (SQLException sqlEx) {
+            sqlEx.printStackTrace();
+        } finally {
+            //close connection ,stmt and resultset here
+            try {
+                con.close();
+            } catch (SQLException se) { /*can't do anything */ }
+            try {
+                stmt.close();
+            } catch (SQLException se) { /*can't do anything */ }
+            try {
+                rs.close();
+            } catch (SQLException se) { /*can't do anything */ }
+        }
+
+
+        return humans;
+
+    }
 
     public static void initDbParams() {
         // go to txt config file and oth.

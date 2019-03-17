@@ -9,7 +9,6 @@ import HumanCreator.model.UserPojo;
 import HumanCreator.outCreators.ExcelCreator;
 import HumanCreator.outCreators.PdfCreator;
 import HumanCreator.sql.SQLHumanAdapter;
-import HumanCreator.sql.SqlHelper;
 import com.itextpdf.text.DocumentException;
 
 import java.io.IOException;
@@ -28,11 +27,10 @@ class Main {
         humans = getHumansWithAPI(countHumans);
         if (humans.size() > 0) {
             //SqlHelper.putHumanListToDB(humans);
-            SQLHumanAdapter.testHumans();
             SQLHumanAdapter.putHumanListToDB(humans);
         }
         else
-            humans = SqlHelper.getHumansListFromDB();
+            humans = SQLHumanAdapter.getHumansListFromDB(countHumans);
 
         System.out.println("Получено пользователей  " + (humans.size()));
         int countNotAddedHumans = countHumans - humans.size();
