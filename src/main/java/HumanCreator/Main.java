@@ -8,7 +8,7 @@ import HumanCreator.model.Human;
 import HumanCreator.model.UserPojo;
 import HumanCreator.outCreators.ExcelCreator;
 import HumanCreator.outCreators.PdfCreator;
-import HumanCreator.sql.SQLHumanAdapter;
+import HumanCreator.sql.SQLHumansAdapter;
 import com.itextpdf.text.DocumentException;
 
 import java.io.IOException;
@@ -17,22 +17,28 @@ import java.util.ArrayList;
 class Main {
 
     public static void main(String[] args) {
-        //  SqlHelper.testStart();
-        SQLHumanAdapter.initDbParams();
+        SQLHumansAdapter.initDbParams();
         int countHumans = Generator.getRand(InputParameters.MIN_COUNT_USERS, InputParameters.MAX_COUNT_USERS);
         System.out.println("Запущен генератор " + countHumans + " пользователей...\nПожалуйста подождите...");
         Generator.initGlossary();
-        ArrayList<Human> humans;
+        ArrayList<Human> apiHumans;
 
-        humans = getHumansWithAPI(countHumans);
-        if (humans.size() > 0) {
-            //SqlHelper.putHumanListToDB(humans);
-            SQLHumanAdapter.putHumanListToDB(humans);
+        apiHumans = getHumansWithAPI(countHumans);
+        ArrayList<Human> humans = new ArrayList<>(apiHumans);
+
+        System.out.println("Получено пользователей  по API " + (apiHumans.size()));
+
+        if (humans.size() != countHumans) {
+            int sizeHumans = humans.size();
+            humans.addAll(SQLHumansAdapter.getHumansListFromDB(countHumans - sizeHumans));
+            System.out.println("Получено пользователей  из базы " + (humans.size() - sizeHumans));
         }
-        else
-            humans = SQLHumanAdapter.getHumansListFromDB(countHumans);
 
-        System.out.println("Получено пользователей  " + (humans.size()));
+        if (apiHumans.size() > 0) {
+            SQLHumansAdapter.putHumanListToDB(apiHumans);
+        }
+
+
         int countNotAddedHumans = countHumans - humans.size();
         for (int i = 0; i < countNotAddedHumans; i++) {
             humans.add(HumanGenerator.getHuman());
